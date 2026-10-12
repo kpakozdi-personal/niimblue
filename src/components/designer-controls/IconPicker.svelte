@@ -67,7 +67,12 @@
 </script>
 
 <div class="dropdown" bind:this={dropdown}>
-  <button class="btn btn-sm btn-secondary" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+  <button
+    class="btn btn-sm btn-secondary"
+    data-bs-toggle="dropdown"
+    data-bs-auto-close="outside"
+    title={$tr("editor.iconpicker.title")}
+    aria-label={$tr("editor.iconpicker.title")}>
     <MdIcon icon="emoji_emotions" />
     <MdIcon icon="add" />
   </button>

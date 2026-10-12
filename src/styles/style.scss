@@ -1,3 +1,35 @@
+// Theme: one cool-tinted gray family, one desaturated blue accent
+$gray-100: #f0f2f5;
+$gray-200: #e1e4ea;
+$gray-300: #c8cdd6;
+$gray-400: #a2a9b6;
+$gray-500: #7d8595;
+$gray-600: #687081;
+$gray-700: #3a3f4a;
+$gray-800: #262a32;
+$gray-900: #181b20;
+
+$primary: #2f6fd0;
+$danger: #d9534f;
+
+$body-bg-dark: #121418;
+$body-secondary-bg-dark: #1f2229;
+$body-tertiary-bg-dark: #191c21;
+$border-color-dark: #2c3039;
+
+$font-family-sans-serif: "Noto Sans Variable", system-ui, sans-serif;
+$headings-font-weight: 600;
+$btn-font-weight: 500;
+$border-radius: 0.5rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 0.75rem;
+$btn-transition:
+  color 0.15s ease-in-out,
+  background-color 0.15s ease-in-out,
+  border-color 0.15s ease-in-out,
+  box-shadow 0.15s ease-in-out,
+  transform 0.1s ease-out;
+
 @import "bootstrap/scss/bootstrap-utilities";
 @import "bootstrap/scss/reboot";
 @import "bootstrap/scss/type";
@@ -14,8 +46,126 @@
 @import "bootstrap/scss/transitions";
 @import "font";
 
+:root {
+  --nb-surface: #1a1d23;
+  --nb-surface-hover: #2a2e37;
+  --nb-line: #2c3039;
+  --nb-shadow: 0 0.75rem 2rem -0.5rem rgba(4, 8, 18, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.02);
+  --nb-print-edge: #e0564e;
+}
+
 body {
-  font-family: "Noto Sans Variable", sans-serif;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(47, 111, 208, 0.09), transparent 70%),
+    var(--bs-body-bg);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible {
+  outline: 2px solid rgba($primary, 0.8);
+  outline-offset: 1px;
+}
+
+// Neutral surface buttons instead of flat gray slabs
+.btn-secondary {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-bg: #23272f;
+  --bs-btn-border-color: #2f343e;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #2c313b;
+  --bs-btn-hover-border-color: #3b414d;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #343a45;
+  --bs-btn-active-border-color: #454c59;
+  --bs-btn-disabled-color: #5d6474;
+  --bs-btn-disabled-bg: #1d2026;
+  --bs-btn-disabled-border-color: #262a32;
+}
+
+.dropdown-menu {
+  --bs-dropdown-bg: var(--nb-surface);
+  --bs-dropdown-border-color: var(--nb-line);
+  --bs-dropdown-link-hover-bg: var(--nb-surface-hover);
+  --bs-dropdown-header-color: var(--bs-secondary-color);
+  box-shadow: var(--nb-shadow);
+}
+
+.dropdown-header {
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.modal {
+  --bs-modal-bg: var(--nb-surface);
+  --bs-modal-border-color: var(--nb-line);
+  --bs-modal-header-border-color: var(--nb-line);
+  --bs-modal-footer-border-color: var(--nb-line);
+  --bs-modal-box-shadow: var(--nb-shadow);
+}
+
+.modal-content {
+  box-shadow: var(--nb-shadow);
+}
+
+.modal-backdrop {
+  --bs-backdrop-bg: #06080c;
+  --bs-backdrop-opacity: 0.7;
+}
+
+// Floating tool dock: ghost buttons grouped inside one surface
+.toolbar {
+  background: var(--nb-surface);
+  border: 1px solid var(--nb-line);
+  border-radius: $border-radius-lg;
+  padding: 0.3rem;
+  box-shadow: var(--nb-shadow);
+  max-width: 100%;
+
+  .btn-secondary:not(.dropdown-menu *) {
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-bg: var(--nb-surface-hover);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: transparent;
+  }
+
+  .btn-danger:not(.dropdown-menu *) {
+    --bs-btn-color: #ec8a86;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-bg: rgba($danger, 0.18);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-hover-color: #f3aeab;
+  }
+}
+
+.toolbar-sep {
+  align-self: stretch;
+  width: 1px;
+  margin: 0.25rem 0.2rem;
+  background: var(--nb-line);
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.toastify {
+  border-radius: $border-radius;
+  box-shadow: var(--nb-shadow);
 }
 
 .toastify.toast-danger {
@@ -36,4 +186,10 @@ body {
 
 .fs-08 {
   font-size: 0.8rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
 }

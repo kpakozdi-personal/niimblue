@@ -108,7 +108,12 @@
 
 <div class="input-group w-auto input-group-sm flex-nowrap justify-content-end">
   {#if $connectionState === "connected"}
-    <button class="btn btn-secondary" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+    <button
+      class="btn btn-secondary"
+      data-bs-toggle="dropdown"
+      data-bs-auto-close="outside"
+      title={$tr("connector.settings")}
+      aria-label={$tr("connector.settings")}>
       <MdIcon icon="settings" />
     </button>
 
@@ -269,7 +274,9 @@
     {#if featureSupport.webBluetooth}
       <button
         disabled={$connectionState === "connecting"}
-        class="btn text-nowrap {connectionType === 'bluetooth' ? 'btn-light' : 'btn-outline-secondary'}"
+        class="btn btn-secondary text-nowrap"
+        class:active={connectionType === 'bluetooth'}
+        aria-pressed={connectionType === 'bluetooth'}
         onclick={() => switchConnectionType("bluetooth")}>
         <MdIcon icon="bluetooth" />
         {$tr("connector.bluetooth")}
@@ -278,7 +285,9 @@
     {#if featureSupport.webSerial}
       <button
         disabled={$connectionState === "connecting"}
-        class="btn text-nowrap {connectionType === 'serial' ? 'btn-light' : 'btn-outline-secondary'}"
+        class="btn btn-secondary text-nowrap"
+        class:active={connectionType === 'serial'}
+        aria-pressed={connectionType === 'serial'}
         onclick={() => switchConnectionType((connectionType = "serial"))}>
         <MdIcon icon="usb" />
         {$tr("connector.serial")}
@@ -287,7 +296,9 @@
     {#if featureSupport.capacitorBle}
       <button
         disabled={$connectionState === "connecting"}
-        class="btn text-nowrap {connectionType === 'capacitor-ble' ? 'btn-light' : 'btn-outline-secondary'}"
+        class="btn btn-secondary text-nowrap"
+        class:active={connectionType === 'capacitor-ble'}
+        aria-pressed={connectionType === 'capacitor-ble'}
         onclick={() => switchConnectionType((connectionType = "capacitor-ble"))}>
         <MdIcon icon="usb" />
         Capacitor BLE
@@ -298,6 +309,8 @@
   {#if $connectionState !== "connected"}
     <button
       class="btn btn-primary"
+      title={$tr("connector.connect")}
+      aria-label={$tr("connector.connect")}
       disabled={$connectionState === "connecting" ||
         (!featureSupport.capacitorBle && !featureSupport.webBluetooth && !featureSupport.webSerial)}
       onclick={onConnectClicked}>

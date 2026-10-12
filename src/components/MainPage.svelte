@@ -20,58 +20,55 @@
 </script>
 
 <div class="page-wrapper d-flex flex-column min-vh-100">
-  <div class="container my-2 flex-grow-1">
-    <div class="row align-items-center mb-3">
-      <div class="col">
-        <h1 class="title">
-          <span class="niim">Niim</span><span class="blue">Blue{isStandalone ? "s" : ""}</span>
-        </h1>
-      </div>
-      <div class="col-md-3">
-        <PrinterConnector />
-      </div>
+  <header class="app-header">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2 py-2">
+      <h1 class="title m-0">
+        <span class="niim">Niim</span><span class="blue">Blue{isStandalone ? "s" : ""}</span>
+      </h1>
+      <PrinterConnector />
     </div>
-    <div class="row">
-      <div class="col">
-        <BrowserWarning />
-      </div>
-    </div>
+  </header>
 
-    <div class="row">
-      <div class="col">
-        <LabelDesigner />
+  <main class="container flex-grow-1 py-3 py-md-4">
+    <BrowserWarning />
+    <LabelDesigner />
+  </main>
+
+  <footer class="app-footer">
+    <div
+      class="container d-flex flex-wrap align-items-center justify-content-between gap-2 py-2 small text-body-secondary">
+      <div class="tabular-nums">
+        {#if appVersion}
+          <a class="link-secondary" href="https://github.com/MultiMote/niimblue/releases/tag/{appVersion}">
+            {appVersion}
+          </a>
+          &middot;
+        {:else if appCommit}
+          <a class="link-secondary" href="https://github.com/MultiMote/niimblue/commit/{appCommit}">
+            {appCommit.slice(0, 6)}
+          </a>
+          &middot;
+        {/if}
+        {$tr("main.built")}
+        {buildDate}
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <select class="form-select form-select-sm w-auto" aria-label="Language" bind:value={$locale}>
+          {#each Object.entries(locales) as [key, name] (key)}
+            <option value={key}>{name}</option>
+          {/each}
+        </select>
+        <a class="link-secondary" href="https://github.com/MultiMote/niimblue">{$tr("main.code")}</a>
+        <button
+          class="btn btn-link link-secondary p-0"
+          title={$tr("debug.title")}
+          aria-label={$tr("debug.title")}
+          onclick={() => (debugStuffShow = true)}>
+          <MdIcon icon="bug_report" />
+        </button>
       </div>
     </div>
-  </div>
-
-  <div class="footer text-end text-secondary p-3">
-    <div>
-      <select class="form-select form-select-sm text-secondary d-inline-block w-auto" bind:value={$locale}>
-        {#each Object.entries(locales) as [key, name] (key)}
-          <option value={key}>{name}</option>
-        {/each}
-      </select>
-    </div>
-    <div>
-      {#if appVersion}
-        <a class="text-secondary" href="https://github.com/MultiMote/niimblue/releases/tag/{appVersion}">
-          {appVersion}
-        </a>
-      {:else if appCommit}
-        <a class="text-secondary" href="https://github.com/MultiMote/niimblue/commit/{appCommit}">
-          {appCommit.slice(0, 6)}
-        </a>
-      {/if}
-      {$tr("main.built")}
-      {buildDate}
-    </div>
-    <div>
-      <a class="text-secondary" href="https://github.com/MultiMote/niimblue">{$tr("main.code")}</a>
-      <button class="text-secondary btn btn-link p-0" onclick={() => debugStuffShow = true}>
-        <MdIcon icon="bug_report" />
-      </button>
-    </div>
-  </div>
+  </footer>
 </div>
 
 {#if debugStuffShow}
@@ -79,11 +76,31 @@
 {/if}
 
 <style>
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+    background: rgba(18, 20, 24, 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--nb-line);
+  }
+
+  .app-footer {
+    border-top: 1px solid var(--nb-line);
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
   .niim {
-    color: #ff5349;
+    color: #ec5f56;
   }
 
   .blue {
-    color: #0b7eff;
+    color: #5592ea;
   }
 </style>

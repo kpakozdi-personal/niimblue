@@ -202,7 +202,12 @@
 </script>
 
 <div class="dropdown">
-  <button class="btn btn-sm btn-secondary" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+  <button
+    class="btn btn-sm btn-secondary"
+    data-bs-toggle="dropdown"
+    data-bs-auto-close="outside"
+    title={$tr("params.saved_labels.menu_title")}
+    aria-label={$tr("params.saved_labels.menu_title")}>
     <MdIcon icon="sd_storage" />
   </button>
   <div class="saved-labels dropdown-menu" bind:this={dropdownRef}>
