@@ -2,6 +2,9 @@ name: Deploy
 
 on:
   push:
+    paths-ignore:
+      - .github/**
+      - '**.md'
 
 concurrency:
   group: deploy-${{ github.ref }}
