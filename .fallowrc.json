@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/fallow/schema.json",
-  "entry": ["src/index.ts"],
+  "entry": ["src/index.ts", "playwright.config.ts", "e2e/**/*.spec.ts"],
   "ignorePatterns": ["standalone-apps/**"],
   "ignoreDependencies": ["@fontsource-variable/noto-sans"],
   "ignoreExports": [{ "file": "src/stores.ts", "exports": ["automation"] }],
