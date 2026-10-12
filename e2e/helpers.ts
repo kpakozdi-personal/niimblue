@@ -85,6 +85,8 @@ export async function canvasObjects(page: Page): Promise<CanvasObject[]> {
   const raw = await page.evaluate(() => localStorage.getItem("default_template"));
   await setMenu(page, "params.saved_labels.menu_title", false);
   await expect(buttonByText(page, tr("params.saved_labels.make_default"))).toBeHidden();
+  // Bootstrap dropdown toggles swallow ArrowUp/ArrowDown, so don't leave focus on one.
+  await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
   if (raw === null) {
     throw new Error("default_template was not written");
   }
