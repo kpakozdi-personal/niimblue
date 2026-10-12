@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, type Locator, type Page } from "@playwright/test";
+import { iconCodepoints, type MaterialIcon } from "../src/styles/mdi_icons";
 
 export const ENTRY = process.env.E2E_ENTRY ?? "/";
 
@@ -107,3 +108,11 @@ export async function addObject(page: Page, nameKey: string): Promise<void> {
 export async function chooseOption(select: Locator, label: string): Promise<void> {
   await select.selectOption({ label });
 }
+
+export async function storageJson(page: Page, key: string): Promise<any> {
+  const raw = await page.evaluate((k) => localStorage.getItem(k), key);
+  return raw === null ? null : JSON.parse(raw);
+}
+
+export const iconButton = (page: Page, icon: MaterialIcon): Locator =>
+  page.getByRole("button").filter({ hasText: String.fromCodePoint(iconCodepoints[icon]) });
