@@ -81,11 +81,19 @@ export interface CanvasObject {
  * current label into localStorage["default_template"].
  */
 export async function canvasObjects(page: Page): Promise<CanvasObject[]> {
-  await setMenu(page, "params.saved_labels.menu_title", true);
-  await buttonByText(page, tr("params.saved_labels.make_default")).click();
+  const toggle = byTitle(page, "params.saved_labels.menu_title");
+  const makeDefault = buttonByText(page, tr("params.saved_labels.make_default"));
+  // The app hides this menu programmatically after Load/Import, which leaves the toggle's
+  // aria-expanded stale, so trust visibility and click again if needed.
+  for (let i = 0; i < 2 && !(await makeDefault.isVisible()); i++) {
+    await toggle.click();
+  }
+  await makeDefault.click();
   const raw = await page.evaluate(() => localStorage.getItem("default_template"));
-  await setMenu(page, "params.saved_labels.menu_title", false);
-  await expect(buttonByText(page, tr("params.saved_labels.make_default"))).toBeHidden();
+  if (await makeDefault.isVisible()) {
+    await toggle.click();
+  }
+  await expect(makeDefault).toBeHidden();
   // Bootstrap dropdown toggles swallow ArrowUp/ArrowDown, so don't leave focus on one.
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
   if (raw === null) {
@@ -115,4 +123,7 @@ export async function storageJson(page: Page, key: string): Promise<any> {
 }
 
 export const iconButton = (page: Page, icon: MaterialIcon): Locator =>
-  page.getByRole("button").filter({ hasText: String.fromCodePoint(iconCodepoints[icon]) });
+  page
+    .getByRole("button")
+    .filter({ hasText: String.fromCodePoint(iconCodepoints[icon]) })
+    .filter({ hasNot: page.getByRole("button") }); // skip containers that wrap the icon button
