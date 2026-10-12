@@ -28,3 +28,15 @@ jobs:
           name: dist
           path: dist
           retention-days: 1
+
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

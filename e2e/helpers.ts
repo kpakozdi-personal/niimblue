@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { expect, type Locator, type Page } from "@playwright/test";
 import { iconCodepoints, type MaterialIcon } from "../src/styles/mdi_icons";
 
-export const ENTRY = process.env.E2E_ENTRY ?? "/";
+const ENTRY = process.env.E2E_ENTRY ?? "/";
 
 const en = JSON.parse(readFileSync(new URL("../src/locale/dicts/en.json", import.meta.url), "utf8")) as Record<
   string,

@@ -14,4 +14,6 @@ Thank you for your interest in contributing to NiimBlue!
 
 - Run `npm run sv-check` and `npm run lint` before submitting pull request.
 
+- Run `npm run e2e` before submitting pull request. It builds the app and drives it with Playwright (chromium). First run: `npx playwright install chromium`. To regenerate the compatibility fixture from the Svelte app: `UPDATE_FIXTURES=1 npm run e2e -- e2e/fixtures/generate.spec.ts`.
+
 - AI generated code is not appreciated. If you use AI to generate code, please make sure to review it and ensure it meets the project standards.
