@@ -18,4 +18,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run sv-check
+      - run: npm run fallow -- --format github-annotations
       - run: npm run build

@@ -1,0 +1,27 @@
+{
+  "$schema": "./node_modules/fallow/schema.json",
+  "entry": ["src/index.ts"],
+  "ignorePatterns": ["standalone-apps/**"],
+  "ignoreDependencies": ["@fontsource-variable/noto-sans"],
+  "ignoreExports": [{ "file": "src/stores.ts", "exports": ["automation"] }],
+  "usedClassMembers": [
+    "type",
+    "_set",
+    "_render",
+    "_renderBackground",
+    "_renderObjects",
+    "toObject",
+    "centerObjectH",
+    "centerObjectV",
+    "resetVirtualZoom"
+  ],
+  "duplicates": {
+    "minOccurrences": 3
+  },
+  "rules": {
+    "dev-dependencies-in-production": "off",
+    "complexity-cyclomatic": "warn",
+    "complexity-cognitive": "warn",
+    "complexity-crap": "warn"
+  }
+}
