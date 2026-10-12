@@ -25,6 +25,5 @@ jobs:
           cache: npm
 
       - run: npm ci
-      # PR close and branch delete both fire on merge+auto-delete; the second run finds nothing to delete
       - run: npx wrangler preview delete --name "$BRANCH" -y
         continue-on-error: true
