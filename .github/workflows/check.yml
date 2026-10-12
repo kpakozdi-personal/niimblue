@@ -22,7 +22,11 @@ jobs:
       - run: npx fallow dupes --format github-annotations --fail-on-issues
       - run: npx fallow health --format github-annotations
       - run: npm run build
-      - if: github.event_name == 'push' && github.ref == 'refs/heads/redesign'
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+        run: npm run deploy:preview
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -15,7 +15,8 @@
 		"lint": "eslint .",
 		"format-all": "prettier --write \"src/**/*.{ts,svelte}\" \"!src/styles/mdi_icons.ts\"",
 		"fallow": "fallow",
-		"deploy": "wrangler deploy"
+		"deploy": "wrangler deploy",
+		"deploy:preview": "wrangler preview"
 	},
 	"dependencies": {
 		"@capacitor/core": "^8.4.1",

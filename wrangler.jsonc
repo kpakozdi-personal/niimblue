@@ -8,5 +8,5 @@
   },
   "workers_dev": false,
   "preview_urls": false,
-  "routes": [{ "pattern": "niimblue.pkzd.hu", "custom_domain": true }]
+  "routes": [{ "pattern": "niimblue.pkzd.hu", "custom_domain": true, "previews_enabled": true }]
 }
