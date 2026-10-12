@@ -90,3 +90,18 @@ export async function canvasObjects(page: Page): Promise<CanvasObject[]> {
   }
   return JSON.parse(raw).canvas.objects as CanvasObject[];
 }
+
+export async function clearCanvas(page: Page): Promise<void> {
+  await byTitle(page, "editor.clear").click();
+  expect(await canvasObjects(page)).toHaveLength(0);
+}
+
+export async function addObject(page: Page, nameKey: string): Promise<void> {
+  await setMenu(page, "editor.objectpicker.title", true);
+  await buttonByText(page, tr(nameKey)).click();
+  await setMenu(page, "editor.objectpicker.title", false);
+}
+
+export async function chooseOption(select: Locator, label: string): Promise<void> {
+  await select.selectOption({ label });
+}
