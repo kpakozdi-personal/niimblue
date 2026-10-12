@@ -13,6 +13,7 @@
 		"sv-check": "svelte-check --tsconfig ./tsconfig.json",
 		"gen-mdi-list": "node gen-mdi-list.mjs > src/styles/mdi_icons.ts",
 		"lint": "eslint .",
+		"e2e": "playwright test",
 		"format-all": "prettier --write \"src/**/*.{ts,svelte}\" \"!src/styles/mdi_icons.ts\"",
 		"fallow": "fallow",
 		"deploy": "wrangler deploy",
@@ -38,6 +39,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
+		"@playwright/test": "^1.64.0",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@types/bootstrap": "^5.2.11",
 		"@types/d3-dsv": "^3.0.7",
