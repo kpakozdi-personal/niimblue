@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "niimblue",
+  "account_id": "034c487efd6d36695d1828708a7799ad",
+  "compatibility_date": "2026-10-12",
+  "assets": {
+    "directory": "./dist"
+  },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "niimblue.pkzd.hu", "custom_domain": true }]
+}
