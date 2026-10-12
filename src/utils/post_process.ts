@@ -26,25 +26,6 @@ export const stucki = createDiffuser(42, [
   [1, 2, 4, 2, 1],
 ]);
 
-/** Burkes (7 neighbours) */
-export const burkes = createDiffuser(32, [
-  [0, 0, 0, 8, 4],
-  [2, 4, 8, 4, 2],
-]);
-
-/** Sierra-3 (10 neighbours) */
-export const sierra3 = createDiffuser(32, [
-  [0, 0, 0, 5, 3],
-  [2, 4, 5, 4, 2],
-  [0, 2, 3, 2, 0],
-]);
-
-/** False Floyd–Steinberg (3 neighbours, simplified) */
-export const falseFloyd = createDiffuser(8, [
-  [0, 0, 3],
-  [0, 3, 2],
-]);
-
 // Atkinson: 6 neighbours at 1/8 each.  Only 6/8 of the error is diffused
 // (the remaining 2/8 is discarded), producing the characteristic bright,
 // high-contrast Macintosh look.  normalize=false preserves this ratio.

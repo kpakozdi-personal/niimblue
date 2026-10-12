@@ -1,12 +1,12 @@
 import * as fabric from "fabric";
 import { code128b, ean13 } from "$/utils/barcode";
-import { CanvasUtils } from "$/utils/canvas_utils";
+import { CanvasDraw } from "$/utils/canvas_draw";
 import { OBJECT_DEFAULTS_TEXT } from "$/defaults";
 
 const EAN13_LONG_BAR_INDEXES: Set<number> = new Set([0, 1, 2, 45, 46, 47, 48, 49, 92, 93, 94]);
 export type BarcodeCoding = "EAN13" | "CODE128B";
 
-export const barcodeDefaultValues: Partial<fabric.TClassProperties<Barcode>> = {
+const barcodeDefaultValues: Partial<fabric.TClassProperties<Barcode>> = {
   text: "",
   encoding: "EAN13",
   printText: true,
@@ -156,7 +156,7 @@ export class Barcode<
 
   override _render(ctx: CanvasRenderingContext2D) {
     if (this.error) {
-      CanvasUtils.renderError(ctx, this.width, this.height);
+      CanvasDraw.renderError(ctx, this.width, this.height);
       super._render(ctx);
       return;
     }
@@ -232,7 +232,7 @@ export class Barcode<
 
         ctx.fillText(parts[0], 0, this.height); // first digit
 
-        CanvasUtils.equalSpacingFillText(
+        CanvasDraw.equalSpacingFillText(
           ctx,
           parts[1],
           letterWidth + longBars1End * this.scaleFactor,
@@ -240,7 +240,7 @@ export class Barcode<
           midPartWidth * this.scaleFactor,
         ); // part 1
 
-        CanvasUtils.equalSpacingFillText(
+        CanvasDraw.equalSpacingFillText(
           ctx,
           parts[2],
           letterWidth + longBars2End * this.scaleFactor,
@@ -250,7 +250,7 @@ export class Barcode<
 
         ctx.fillText(parts[3], this.width - letterWidth, this.height); // last digit
       } else {
-        CanvasUtils.equalSpacingFillText(ctx, this.displayText, barcodeStartPos, this.height, this.width);
+        CanvasDraw.equalSpacingFillText(ctx, this.displayText, barcodeStartPos, this.height, this.width);
       }
     }
 

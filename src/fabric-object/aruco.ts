@@ -1,6 +1,6 @@
 import * as fabric from "fabric";
 import { OBJECT_SIZE_DEFAULTS } from "$/defaults";
-import { CanvasUtils } from "$/utils/canvas_utils";
+import { CanvasDraw } from "$/utils/canvas_draw";
 
 export type ArUcoDictionary = "4x4" | "5x5" | "6x6";
 
@@ -102,7 +102,7 @@ function decodeBits(dict: ArUcoDictionary, markerId: number): number[][] {
   return grid;
 }
 
-export const arUcoDefaultValues: Partial<fabric.TClassProperties<ArUcoMarker>> = {
+const arUcoDefaultValues: Partial<fabric.TClassProperties<ArUcoMarker>> = {
   dictionary: "4x4",
   markerId: 5,
   stroke: "#000000",
@@ -160,7 +160,7 @@ export class ArUcoMarker<
   override _render(ctx: CanvasRenderingContext2D): void {
     const grid = decodeBits(this.dictionary, this.markerId);
     if (grid.length === 0) {
-      CanvasUtils.renderError(ctx, this.width, this.height);
+      CanvasDraw.renderError(ctx, this.width, this.height);
       super._render(ctx);
       return;
     }
@@ -171,7 +171,7 @@ export class ArUcoMarker<
     const markerWidth = cellSize * totalCells;
 
     if (cellSize < 1 || markerWidth > this.width) {
-      CanvasUtils.renderError(ctx, this.width, this.height);
+      CanvasDraw.renderError(ctx, this.width, this.height);
       super._render(ctx);
       return;
     }

@@ -26,7 +26,6 @@ import {
 import { LocalStoragePersistence, writablePersisted } from "$/utils/persistence";
 import { APP_CONFIG_DEFAULTS, CSV_DEFAULT, OBJECT_DEFAULTS_TEXT } from "$/defaults";
 import z from "zod";
-import { FileUtils } from "$/utils/file_utils";
 import { createPrinterInfo } from "@mmote/niimbluelib/dist/cjs/client/abstract_client";
 
 export const fontCache = writable<string[]>([OBJECT_DEFAULTS_TEXT.fontFamily]);
@@ -45,7 +44,6 @@ export const printerMeta = writable<PrinterModelMeta | undefined>();
 export const heartbeatFails = writable<number>(0);
 export const csvData = writablePersisted<CsvParams>("csv_params", CsvParamsSchema, { data: CSV_DEFAULT });
 
-userFonts.subscribe(FileUtils.loadFonts);
 
 export const automation = readable<AutomationProps | undefined>(
   (() => {
