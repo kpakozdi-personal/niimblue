@@ -1,6 +1,7 @@
 <script lang="ts">
   import { tr } from "$/utils/i18n";
   import MdIcon from "$/components/basic/MdIcon.svelte";
+  import ColorSelect from "$/components/basic/ColorSelect.svelte";
   import * as fabric from "fabric";
 
   interface Props {
@@ -73,15 +74,7 @@
       <span class="input-group-text" title={$tr("params.vector.fill")}>
         <MdIcon icon="format_color_fill" />
       </span>
-      <select
-        class="form-select"
-        value={selectedObject.fill}
-        onchange={(e) => fillChanged(e.currentTarget.value)}>
-        <option value="white">{$tr("params.color.white")}</option>
-        <option value="black">{$tr("params.color.black")}</option>
-        <option value="red">{$tr("params.color.red")}</option>
-        <option value="transparent">{$tr("params.color.transparent")}</option>
-      </select>
+      <ColorSelect value={selectedObject.fill} onChange={fillChanged} />
     </div>
   {/if}
 
@@ -89,15 +82,7 @@
     <span class="input-group-text" title={$tr("params.vector.stroke_color")}>
       <MdIcon icon="border_color" />
     </span>
-    <select
-      class="form-select"
-      value={selectedObject.stroke}
-      onchange={(e) => strokeChanged(e.currentTarget.value)}>
-      <option value="white">{$tr("params.color.white")}</option>
-      <option value="black">{$tr("params.color.black")}</option>
-      <option value="red">{$tr("params.color.red")}</option>
-      <option value="transparent">{$tr("params.color.transparent")}</option>
-    </select>
+    <ColorSelect value={selectedObject.stroke} onChange={strokeChanged} />
   </div>
 {/if}
 

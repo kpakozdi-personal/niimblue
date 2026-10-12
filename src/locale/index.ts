@@ -20,7 +20,7 @@ import lang_bg from "$/locale/dicts/bg.json";
 import lang_sv from "$/locale/dicts/sv.json";
 
 export type TranslationKey = keyof typeof lang_en;
-export type TranslationDict = Record<TranslationKey, string>;
+type TranslationDict = Record<TranslationKey, string>;
 
 export const langPack = {
   /** English (fallback) */

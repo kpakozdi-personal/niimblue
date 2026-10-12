@@ -2,6 +2,7 @@
   import * as fabric from "fabric";
   import { tr } from "$/utils/i18n";
   import MdIcon from "$/components/basic/MdIcon.svelte";
+  import ColorSelect from "$/components/basic/ColorSelect.svelte";
   import FontFamilyPicker from "$/components/designer-controls/FontFamilyPicker.svelte";
   import { TextboxExt } from "$/fabric-object/textbox-ext";
 
@@ -193,15 +194,7 @@
       <span class="input-group-text">
         <MdIcon icon="format_color_fill" />
       </span>
-      <select
-        class="form-select"
-        value={selectedText.backgroundColor || "transparent"}
-        onchange={(e) => backgroundColorChanged(e.currentTarget.value)}>
-        <option value="white">{$tr("params.color.white")}</option>
-        <option value="black">{$tr("params.color.black")}</option>
-        <option value="red">{$tr("params.color.red")}</option>
-        <option value="transparent">{$tr("params.color.transparent")}</option>
-      </select>
+      <ColorSelect value={selectedText.backgroundColor || "transparent"} onChange={backgroundColorChanged} />
     </div>
   </div>
 </div>

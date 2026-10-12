@@ -13,7 +13,6 @@ import {
   type PreviewProps,
 } from "$/types";
 import { z } from "zod";
-import { FileUtils } from "$/utils/file_utils";
 import { get, writable, type Updater, type Writable } from "svelte/store";
 
 /** Writable store, value is persisted to localStorage */
@@ -148,7 +147,7 @@ export class LocalStoragePersistence {
     labels.forEach((label) => {
       try {
         if (label.timestamp === undefined) {
-          label.timestamp = FileUtils.timestamp();
+          label.timestamp = Math.floor(Date.now() / 1000);
         }
 
         const basename = `saved_label_${label.timestamp}`;
@@ -195,7 +194,7 @@ export class LocalStoragePersistence {
       const item: ExportedLabelTemplate = {
         label: legacyLabel,
         canvas: legacyCanvas,
-        timestamp: FileUtils.timestamp(),
+        timestamp: Math.floor(Date.now() / 1000),
       };
       this.validateAndSaveObject(
         `saved_label_${item.timestamp}`,
@@ -279,13 +278,6 @@ export class LocalStoragePersistence {
 
   static saveLastConnectionType(value: ConnectionType) {
     localStorage.setItem("connection_type", value);
-  }
-
-  /**
-   * @throws {z.ZodError}
-   */
-  static saveAutomation(value?: AutomationProps) {
-    this.validateAndSaveObject("automation", value, AutomationPropsSchema);
   }
 
   /**

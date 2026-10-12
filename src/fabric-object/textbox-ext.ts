@@ -6,7 +6,7 @@ interface UniqueTextboxExtProps {
 
 const TEXTBOX_PROPS: Array<keyof UniqueTextboxExtProps> = ["fontAutoSize"];
 
-export const textboxExtDefaultValues: Partial<fabric.TClassProperties<TextboxExt>> = {
+const textboxExtDefaultValues: Partial<fabric.TClassProperties<TextboxExt>> = {
   fontAutoSize: false,
 };
 

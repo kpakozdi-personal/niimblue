@@ -1,0 +1,30 @@
+name: Check
+
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run sv-check
+      - run: npx fallow dead-code --format github-annotations --fail-on-issues
+      - run: npx fallow dupes --format github-annotations --fail-on-issues
+      - run: npx fallow health --format github-annotations
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+          retention-days: 1

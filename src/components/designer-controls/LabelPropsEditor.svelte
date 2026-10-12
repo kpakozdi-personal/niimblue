@@ -268,7 +268,12 @@
 </script>
 
 <div class="dropdown">
-  <button class="btn btn-sm btn-secondary" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+  <button
+    class="btn btn-sm btn-secondary"
+    data-bs-toggle="dropdown"
+    data-bs-auto-close="outside"
+    title={$tr("params.label.menu_title")}
+    aria-label={$tr("params.label.menu_title")}>
     <MdIcon icon="settings" />
   </button>
   <div class="dropdown-menu">

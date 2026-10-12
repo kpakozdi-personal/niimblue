@@ -22,7 +22,7 @@ export const CsvParamsSchema = z.object({
 });
 
 /** Not validated */
-export const FabricObjectSchema = z.custom<fabric.FabricObject>((val: any): boolean => {
+const FabricObjectSchema = z.custom<fabric.FabricObject>((val: any): boolean => {
   return typeof val === "object";
 });
 
@@ -72,7 +72,7 @@ export const ExportedLabelTemplateSchema = z.object({
 
 const [firstTask, ...otherTasks] = printTaskNames;
 
-export const PreviewPropsOffsetSchema = z.object({
+const PreviewPropsOffsetSchema = z.object({
   x: z.number(),
   y: z.number(),
   offsetType: z.enum(["inner", "outer"]),

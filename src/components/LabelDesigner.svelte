@@ -473,80 +473,84 @@
 <svelte:window bind:innerWidth={windowWidth} onkeydown={onKeyDown} onpaste={onPaste} />
 
 <div class="image-editor">
-  <div class="row mb-3">
-    <div class="col d-flex justify-content-center">
-      <div class="canvas-wrapper print-start-{labelProps.printDirection}">
-        <canvas bind:this={htmlCanvas}></canvas>
-      </div>
+  <div class="stage mb-3">
+    <div class="canvas-wrapper print-start-{labelProps.printDirection}">
+      <canvas bind:this={htmlCanvas}></canvas>
     </div>
   </div>
 
-  <div class="row mb-1">
-    <div class="col d-flex justify-content-center">
-      <div class="toolbar d-flex flex-wrap gap-1 justify-content-center align-items-center">
-        <LabelPropsEditor {labelProps} onChange={onUpdateLabelProps} />
+  <div class="d-flex justify-content-center mb-2">
+    <div class="toolbar d-flex flex-wrap gap-1 justify-content-center align-items-center">
+      <LabelPropsEditor {labelProps} onChange={onUpdateLabelProps} />
 
-        <button class="btn btn-sm btn-secondary" onclick={clearCanvas} title={$tr("editor.clear")}>
-          <MdIcon icon="cancel_presentation" />
-        </button>
+      <button class="btn btn-sm btn-secondary" onclick={clearCanvas} title={$tr("editor.clear")}>
+        <MdIcon icon="cancel_presentation" />
+      </button>
 
-        <SavedLabelsMenu
-          canvas={fabricCanvas!}
-          onRequestLabelTemplate={exportCurrentLabel}
-          {onLoadRequested}
-          {csvEnabled} />
+      <SavedLabelsMenu
+        canvas={fabricCanvas!}
+        onRequestLabelTemplate={exportCurrentLabel}
+        {onLoadRequested}
+        {csvEnabled} />
 
-        <button
-          class="btn btn-sm btn-secondary"
-          disabled={undoState.undoDisabled}
-          onclick={() => undo.undo()}
-          title={$tr("editor.undo")}>
-          <MdIcon icon="undo" />
-        </button>
+      <span class="toolbar-sep"></span>
 
-        <button
-          class="btn btn-sm btn-secondary"
-          disabled={undoState.redoDisabled}
-          onclick={() => undo.redo()}
-          title={$tr("editor.redo")}>
-          <MdIcon icon="redo" />
-        </button>
+      <button
+        class="btn btn-sm btn-secondary"
+        disabled={undoState.undoDisabled}
+        onclick={() => undo.undo()}
+        title={$tr("editor.undo")}>
+        <MdIcon icon="undo" />
+      </button>
 
-        <button
-          class="btn btn-sm {$appConfig.gridEnabled ? 'btn-primary' : 'btn-secondary'}"
-          onclick={toggleGrid}
-          title={$tr("editor.grid")}>
-          <MdIcon icon="grid_on" />
-        </button>
+      <button
+        class="btn btn-sm btn-secondary"
+        disabled={undoState.redoDisabled}
+        onclick={() => undo.redo()}
+        title={$tr("editor.redo")}>
+        <MdIcon icon="redo" />
+      </button>
 
-        <button
-          class="btn btn-sm btn-secondary"
-          onclick={() => fabricCanvas?.resetVirtualZoom()}
-          title="Reset zoom">
-          {zoomText}
-        </button>
+      <span class="toolbar-sep"></span>
 
-        <CsvControl bind:enabled={csvEnabled} onPlaceholderPicked={onCsvPlaceholderPicked} />
+      <button
+        class="btn btn-sm {$appConfig.gridEnabled ? 'btn-primary' : 'btn-secondary'}"
+        onclick={toggleGrid}
+        title={$tr("editor.grid")}>
+        <MdIcon icon="grid_on" />
+      </button>
 
-        <IconPicker onSubmit={onIconPicked} onSubmitSvg={onSvgIconPicked} />
+      <button
+        class="btn btn-sm btn-secondary tabular-nums zoom-btn"
+        onclick={() => fabricCanvas?.resetVirtualZoom()}
+        title="Reset zoom">
+        {zoomText}
+      </button>
 
-        <ObjectPicker onSubmit={onObjectPicked} {labelProps} {zplImageReady} {pdfImageReady}  />
+      <span class="toolbar-sep"></span>
 
-        <button class="btn btn-sm btn-primary ms-1" onclick={openPreview}>
-          <MdIcon icon="visibility" />
-          {$tr("editor.preview")}
-        </button>
-        <button
-          title="Print with default or saved parameters"
-          class="btn btn-sm btn-primary ms-1"
-          onclick={openPreviewAndPrint}
-          disabled={$connectionState !== "connected"}><MdIcon icon="print" /> {$tr("editor.print")}</button>
-      </div>
+      <CsvControl bind:enabled={csvEnabled} onPlaceholderPicked={onCsvPlaceholderPicked} />
+
+      <IconPicker onSubmit={onIconPicked} onSubmitSvg={onSvgIconPicked} />
+
+      <ObjectPicker onSubmit={onObjectPicked} {labelProps} {zplImageReady} {pdfImageReady}  />
+
+      <span class="toolbar-sep"></span>
+
+      <button class="btn btn-sm btn-secondary" onclick={openPreview}>
+        <MdIcon icon="visibility" />
+        {$tr("editor.preview")}
+      </button>
+      <button
+        title="Print with default or saved parameters"
+        class="btn btn-sm btn-primary px-3"
+        onclick={openPreviewAndPrint}
+        disabled={$connectionState !== "connected"}><MdIcon icon="print" /> {$tr("editor.print")}</button>
     </div>
   </div>
 
-  <div class="row mb-1">
-    <div class="col d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
+    {#if selectedCount > 0 || selectedObject}
       <div class="toolbar d-flex flex-wrap gap-1 justify-content-center align-items-center">
         {#if selectedCount > 0}
           <button class="btn btn-sm btn-danger me-1" onclick={deleteSelected} title={$tr("editor.delete")}>
@@ -588,7 +592,9 @@
           <VariableInsertControl {selectedObject} valueUpdated={controlValueUpdated} />
         {/if}
       </div>
-    </div>
+    {:else}
+      <p class="selection-hint small text-body-secondary m-0 py-2">{$tr("editor.selection_hint")}</p>
+    {/if}
   </div>
 
   {#if previewOpened}
@@ -603,18 +609,41 @@
 </div>
 
 <style>
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 16rem;
+    padding: 2.5rem 1rem 3rem;
+    border: 1px solid var(--nb-line);
+    border-radius: 1rem;
+    background-color: #15171c;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 18px 18px;
+    background-position: center;
+  }
   .canvas-wrapper {
-    border: 1px solid rgba(0, 0, 0, 0.4);
     background-color: rgba(60, 55, 63, 0.5);
     max-width: 100%;
     max-height: 70vh;
     overflow: auto;
+    box-shadow:
+      0 1.25rem 2.5rem -1rem rgba(2, 6, 16, 0.8),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
   }
   .canvas-wrapper.print-start-left {
-    border-left: 2px solid #ff4646;
+    border-left: 3px solid var(--nb-print-edge);
   }
   .canvas-wrapper.print-start-top {
-    border-top: 2px solid #ff4646;
+    border-top: 3px solid var(--nb-print-edge);
+  }
+  .zoom-btn {
+    min-width: 3.6rem;
+  }
+  .selection-hint {
+    max-width: 65ch;
+    text-align: center;
+    text-wrap: balance;
   }
   .canvas-wrapper canvas {
     image-rendering: pixelated;

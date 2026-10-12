@@ -1,7 +1,7 @@
 import { Utils } from "@mmote/niimbluelib";
 
 // copied from node_modules/qrcode-generator/dist/qrcode_UTF8.mjs (not sure how to import it from TS)
-export const toUTF8Array = (str: string): number[] => {
+const toUTF8Array = (str: string): number[] => {
   const utf8 = [];
   for (let i = 0; i < str.length; i++) {
     let charcode = str.charCodeAt(i);

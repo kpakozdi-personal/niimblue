@@ -3,7 +3,7 @@ import * as fabric from "fabric";
 import { OBJECT_SIZE_DEFAULTS } from "$/defaults";
 import { Range } from "$/types";
 import { stringToBytes } from "$/utils/qrcode";
-import { CanvasUtils } from "$/utils/canvas_utils";
+import { CanvasDraw } from "$/utils/canvas_draw";
 
 QRCodeFactory.stringToBytes = stringToBytes;
 
@@ -12,7 +12,7 @@ export type Mode = "Numeric" | "Alphanumeric" | "Byte" /* Default */ | "Kanji";
 
 export type QrVersion = Range<41>; // 0-40, 0 is automatic
 
-export const qrCodeDefaultValues: Partial<fabric.TClassProperties<QRCode>> = {
+const qrCodeDefaultValues: Partial<fabric.TClassProperties<QRCode>> = {
   text: "Text",
   ecl: "M",
   stroke: "#000000",
@@ -89,7 +89,7 @@ export class QRCode<
 
   override _render(ctx: CanvasRenderingContext2D): void {
     if (!this.text) {
-      CanvasUtils.renderError(ctx, this.width, this.height);
+      CanvasDraw.renderError(ctx, this.width, this.height);
       super._render(ctx);
       return;
     }
@@ -101,7 +101,7 @@ export class QRCode<
       qr.make();
     } catch (e) {
       console.error(e);
-      CanvasUtils.renderError(ctx, this.width, this.height);
+      CanvasDraw.renderError(ctx, this.width, this.height);
       super._render(ctx);
       return;
     }
@@ -111,7 +111,7 @@ export class QRCode<
     qrWidth -= qrWidth % 2; // avoid half-pixel rendering
 
     if (qrScale < 1 || qrWidth > this.width) {
-      CanvasUtils.renderError(ctx, this.width, this.height);
+      CanvasDraw.renderError(ctx, this.width, this.height);
       super._render(ctx);
       return;
     }
