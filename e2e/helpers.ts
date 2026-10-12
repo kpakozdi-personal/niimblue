@@ -127,3 +127,24 @@ export const iconButton = (page: Page, icon: MaterialIcon): Locator =>
     .getByRole("button")
     .filter({ hasText: String.fromCodePoint(iconCodepoints[icon]) })
     .filter({ hasNot: page.getByRole("button") }); // skip containers that wrap the icon button
+
+export const canvasHasInk = (canvas: Locator): Promise<boolean> =>
+  canvas.evaluate((el: HTMLCanvasElement) => {
+    const ctx = el.getContext("2d");
+    if (!ctx || el.width === 0 || el.height === 0) {
+      return false;
+    }
+    const d = ctx.getImageData(0, 0, el.width, el.height).data;
+    for (let i = 4; i < d.length; i += 4) {
+      if (d[i] !== d[0] || d[i + 1] !== d[1] || d[i + 2] !== d[2] || d[i + 3] !== d[3]) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+export const canvasDigest = (canvas: Locator): Promise<string> =>
+  canvas.evaluate(async (el: HTMLCanvasElement) => {
+    const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(el.toDataURL()));
+    return Array.from(new Uint8Array(hash), (b) => b.toString(16).padStart(2, "0")).join("");
+  });
